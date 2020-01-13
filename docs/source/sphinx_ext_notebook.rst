@@ -4,12 +4,12 @@ ipypublish.sphinx.notebook
 ==========================
 
 :py:mod:`ipypublish.sphinx.notebook` is adapted from
-`nbshinx <https://nbsphinx.readthedocs.io>`_, to provide a
+`nbsphinx <https://nbsphinx.readthedocs.io>`_, to provide a
 `sphinx extension <https://www.sphinx-doc.org/en/master/usage/extensions/>`_
 for converting notebooks with :py:class:`ipypublish.convert.main.IpyPubMain`.
 
 This website is built using it,
-and a good example its use would be to look at the
+so a good example of its use would be to look at the
 `ipypublish/docs/source/conf.py <https://github.com/chrisjsewell/ipypublish/blob/master/docs/source/conf.py>`_.
 
 This extension loads:
@@ -81,6 +81,10 @@ or for sphinx<1.8:
     (including the ipypublish extensions), and
     call `sphinx-build <https://www.sphinx-doc.org/en/master/man/sphinx-build.html>`_.
 
+.. seealso::
+
+    :ref:`sphinx_doc_metadata`, for the notebook document level metadata options.
+
 Configuration
 -------------
 
@@ -110,21 +114,31 @@ setup by adding to the conf.py:
 .. table:: Configuration values to use in conf.py
     :name: tbl:sphinx_config
 
-    ============================= =========================== ==================================================================
+    ============================= =========================== =======================================================================
     Name                          Default                     Description
-    ============================= =========================== ==================================================================
+    ============================= =========================== =======================================================================
     ipysphinx_export_config       "sphinx_ipypublish_all.ext" ipypublish configuration file to use for conversion to .rst
     ipysphinx_folder_suffix       "_nbfiles"                  <fname><suffix> for dumping internal images, etc
     ipysphinx_overwrite_existing  False                       raise error if nb_name.rst already exists
     ipysphinx_config_folders      ()                          additional folders containing ipypublish configuration files
     ipysphinx_show_prompts        False                       show cell prompts
-    ipysphinx_input_prompt        "[{count}]:"                 format of input prompts
-    ipysphinx_output_prompt       "[{count}]:"                 format of output prompts
-    ipysphinx_preconverters       {}                          a mapping of additional file extensions to preconversion functions
-    ============================= =========================== ==================================================================
+    ipysphinx_input_prompt        "[{count}]:"                format of input prompts
+    ipysphinx_output_prompt       "[{count}]:"                format of output prompts
+    ipysphinx_input_toggle        False                       add a button at the right side of input cells, to toggle show/hide
+    ipysphinx_output_toggle       False                       add a button at the right side of output cells, to toggle show/hide
+    ipysphinx_preconverters       {}                          a mapping of additional file extensions to pre-conversion functions
+    ipysphinx_require_jsurl       cdnjs.cloudflare.com<2.3.4> source URL for require package javascript
+    ipysphinx_requirejs_option    {}                          additional options for require package javascript ``<script>`` tag
+    ipysphinx_widgets_jsurl       <obtained from package>     source URL for ipywidgets embedding javascript
+    ipysphinx_widgetsjs_options   {}                          additional options for require package javascript ``<script>`` tag
+    ipysphinx_always_add_jsurls   False                       Add javascript URLs to all pages (or only those created from notebooks)
+    ============================= =========================== =======================================================================
 
 Examples
 --------
+
+Basic input
+~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -139,8 +153,13 @@ Examples
     :execution-count: 2
     :caption: A caption for the code cell
     :name: ref_label
+    :no-output:
 
     print("hallo")
+
+
+Basic output
+~~~~~~~~~~~~
 
 .. code-block:: rst
 
@@ -154,6 +173,58 @@ Examples
 
     hallo
 
+.. _sphinx_ext_notebook_toggle_in:
+
+Toggle inputs/outputs
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: rst
+
+    .. nbinput-toggle-all:: NbInput Toggle All
+
+    .. nboutput-toggle-all:: NbOutput Toggle All
+
+    .. nbinput:: python
+        :add-toggle:
+        :execution-count: 3
+
+        j = 0
+        for i in range(3):
+            print(i)
+            j += i
+        print(j)
+
+    .. nboutput::
+        :add-toggle:
+        :execution-count: 3
+
+        hallo
+        there
+
+.. nbinput-toggle-all:: NbInput Toggle All
+
+.. nboutput-toggle-all:: NbOutput Toggle All
+
+.. nbinput:: python
+    :add-toggle:
+    :execution-count: 3
+
+    j = 0
+    for i in range(3):
+        print(i)
+        j += i
+    print(j)
+
+.. nboutput::
+    :add-toggle:
+    :execution-count: 3
+
+    hallo
+    there
+
+Information and Warnings
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: rst
 
     .. nbinfo:: Some information
@@ -165,4 +236,3 @@ Examples
     .. nbwarning:: This is a warning
 
 .. nbwarning:: This is a warning
-

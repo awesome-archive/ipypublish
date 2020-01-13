@@ -13,6 +13,71 @@ Releases
 Version 0.10
 ------------
 
+v0.10.10
+~~~~~~~~
+
+Add compatibility of sphinx conversion with
+`ipywidgets <https://ipywidgets.readthedocs.io/en/stable/>`_.
+For examples see the section in :ref:`code_cells`, and for sphinx extension
+configuration see :ref:`sphinx_ext_notebook`.
+Note, the sphinx version dependency is now ``>=1.8``.
+
+Additionally the code base has been formatted by
+`black <https://github.com/ambv/black>`__,
+and some minor bugs/warnings have been fixed.
+
+v0.10.9
+~~~~~~~
+
+Improve ipubpandoc filter conversion of equations:
+
+- Ensure equations that are already wrapped in a math environment
+  are not wrapped twice.
+- For RST output, ensure multi-line equations are correctly indented
+
+v0.10.6 & v0.10.7
+~~~~~~~~~~~~~~~~~
+
+Added sphinx option for toggling notebook input and output cells.
+For examples see :ref:`sphinx_ext_notebook_toggle_in` and :ref:`code_cells`.
+
+v0.10.5
+~~~~~~~
+
+Remove requirement for sphinx < 2.0
+
+v0.10.4
+~~~~~~~
+
+Fix image reference clashes in rst files (see chrisjsewell/ipypublish#90)
+
+v0.10.3
+~~~~~~~
+
+Minor Improvements to `ipypublish.sphinx.notebook`:
+
+- remove ``sphinx.ext.imgconverter`` from sphinx auto-builds
+- add additional known sphinx roles
+
+v0.10.2
+~~~~~~~
+
+Update dependency requirements:
+
+- Only require backport dependencies
+  for python version older than their implementation
+- use ``ordered-set``, instead of ``oset`` dependency,
+  since it is better maintained
+
+v0.10.1
+~~~~~~~
+
+Minor Improvements to `ipypublish.sphinx.notebook`:
+
+- Formatting of the execution_count is now inserted by:
+  ``ipysphinx_input_prompt.format(count=execution_count)``
+- Use "Code Cell Output" as placeholder for output image caption
+
 v0.10.0
 ~~~~~~~
 
@@ -29,7 +94,7 @@ v0.10.0
   of Sphinx extensions (using the Sphinx pytest fixtures) and creation of the
   ``IpyTestApp`` fixture
 
-- fixed `tornado version restriction <https://github.com/chrisjsewell/ipypublish/issues/71>`_ 
+- fixed `tornado version restriction <https://github.com/chrisjsewell/ipypublish/issues/71>`_
 
 Back-compatibility breaking changes:
 
@@ -38,7 +103,8 @@ Back-compatibility breaking changes:
   (see :ref:`sphinx_ext_notebook`)
 
 - :py:meth:`ipypublish.postprocessors.base.IPyPostProcessor.run_postprocess`
-  input signature changed (and consequently it has changes for all post-processors)
+  input signature changed
+  (and consequently it has changes for all post-processors)
 
 v0.9
 
@@ -302,4 +368,3 @@ Version 0.1
 -----------
 
 Initial release, before changing latex meta tag convention
-

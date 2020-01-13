@@ -196,8 +196,116 @@ See
 `Positioning_images_and_tables <https://www.sharelatex.com/learn/Positioning_images_and_tables>`__
 for placement options.
 
+.. _pandoc_doc_metadata:
+
+
+Adding a stylesheet to slides
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For **slide output**, the following notebook-level metadata:
+
+.. code:: json
+
+   {
+     "ipub": {
+       "customcss": "mystylesheet.css"
+     }
+   }
+
+will link the additional stylesheet `mystylesheet` in the resulting html.  This can be used, for example, to display a log on each slide.
+
+Pandoc Markdown Conversion
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To control how the ipypandoc filters convert markdown cells,
+the following options are available:
+
+.. code:: json
+
+   {
+   "ipub": {
+       "sphinx": {
+          "apply_filters": true,
+          "convert_raw": true,
+          "hide_raw": false,
+          "at_notation": true,
+          "use_numref": true,
+          "reftag": "cite"
+         }
+     }
+   }
+
+.. seealso::
+
+    :ref:`markdown_cells`
+
+.. _sphinx_doc_metadata:
+
+Sphinx Output Control
+~~~~~~~~~~~~~~~~~~~~~
+
+.. seealso::
+
+    :ref:`sphinx_ext_notebook`, for documentation on the Sphinx extension.
+
+To suppress the output of a bibliography or glossary:
+
+.. code:: json
+
+   {
+   "ipub": {
+       "sphinx": {
+          "no_bib": true,
+          "no_glossary": true
+         }
+     }
+   }
+
+To change the title text of the bibliography and glossary:
+
+.. code:: json
+
+   {
+   "ipub": {
+       "sphinx": {
+          "bib_title": "My Title",
+          "glossary_title": "My Title"
+         }
+     }
+   }
+
+
+To control the addition of toggle buttons for code/output cells:
+
+.. code:: json
+
+   {
+   "ipub": {
+       "sphinx": {
+          "toggle_input": true,
+          "toggle_output": true,
+          "toggle_input_all": true,
+          "toggle_output_all": true
+         }
+     }
+   }
+
+To denote the notebook as an orphan (i.e. not required in an index):
+
+.. code:: json
+
+   {
+   "ipub": {
+       "sphinx": {
+          "orphan": true
+         }
+     }
+   }
+
 Cell/Output Level
 -----------------
+
+The full schema can be viewed at :ref:`meta_celllevel_schema`.
 
 Ignore
 ~~~~~~
@@ -232,7 +340,7 @@ To **output a code block**:
    {
    "ipub": {
      "code": {
-     "format" : {},
+       "format" : {},
        "asfloat": true,
        "caption": "",
        "label": "code:example_sym",
@@ -262,15 +370,15 @@ command):
    {
    "ipub": {
      "text": {
-         "format": {
+        "format": {
           "basicstyle": "\\small"
-         },
-       "asfloat": true,
-       "caption": "",
-       "label": "code:example_sym",
-       "widefigure": false,
-       "placement": "H",
-     "use_ansi": false
+        },
+        "asfloat": true,
+        "caption": "",
+        "label": "code:example_sym",
+        "widefigure": false,
+        "placement": "H",
+        "use_ansi": false
        }
      }
    }
@@ -291,7 +399,7 @@ all extra tags are optional:
 Output Figures
 ~~~~~~~~~~~~~~
 
-For **figures** (i.e. any graphics output by the code), enter in cell
+For **figures** (i.e. any graphics output by the code), enter in cell
 metadata:
 
 .. code:: json
@@ -302,7 +410,7 @@ metadata:
        "caption": "Figure caption.",
        "label": "fig:flabel",
        "placement": "H",
-     "height":0.4,
+       "height":0.4,
        "widefigure": false
        }
      }
@@ -330,20 +438,20 @@ metadata:
 Output Tables
 ~~~~~~~~~~~~~
 
-For **tables** (e.g. those output by ``pandas``), enter in cell
+For **tables** (e.g. those output by ``pandas``), enter in cell
 metadata:
 
 .. code:: json
 
    {
-   "ipub": {
+    "ipub": {
         "table": {
          "caption": "Table caption.",
          "label": "tbl:tlabel",
          "placement": "H",
-               "alternate": "gray!20"
+         "alternate": "gray!20"
        }
-      }
+     }
    }
 
 -  ``caption`` and ``label`` are optional
@@ -367,7 +475,7 @@ metadata:
 Output Equations
 ~~~~~~~~~~~~~~~~
 
-For **equations** (e.g. those output by ``sympy``), enter in cell
+For **equations** (e.g. those output by ``sympy``), enter in cell
 metadata:
 
 .. code:: json
@@ -376,7 +484,7 @@ metadata:
      "ipub": {
        "equation": {
            "environment": "equation",
-         "label": "eqn:elabel"
+           "label": "eqn:elabel"
        }
      }
    }
@@ -407,6 +515,25 @@ For **slide output**:
 -  the value of slide can be true, “new” (to indicate the start of a new
    slide) or “notes”
 
+Specifying the start section number in slide-shows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For **slide output**:
+
+.. code:: json
+
+    {
+        "toc": {
+            "base_numbering": "3",
+        }
+    }
+
+-   the above will set the first section number to 3 rather than 1
+
+-   note that the top-level key is "toc", and *not* "ipub"; this allows
+    the starting section number to be configured using the
+    `toc2 notebook extension <https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tree/master/src/jupyter_contrib_nbextensions/nbextensions/toc2>`__
+
 Captions in a Markdown cell
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -421,7 +548,7 @@ metadata tag:
 
    {
     "ipub": {
-     "caption": "fig:example_mpl"
+      "caption": "fig:example_mpl"
      }
    }
 
@@ -429,7 +556,7 @@ Then, during the the postprocessor stage, this cell will be removed from
 the notebook object, and its text stored as a *resource*;
 
 -  the cell’s text is the first paragraph of the markdown string,
-   i.e. nothing after a newline (:code:`\n`)
+   i.e. nothing after a newline (:code:`\n`)
 -  if there are multiple instance of the same cation name, then only the
    last instance will be stored
 
@@ -439,11 +566,11 @@ label matching any stored caption name, for example:
 .. code:: json
 
    {
-   "ipub": {
-     "figure": {
-       "caption": "",
-       "label": "fig:example_mpl"
-     }
+     "ipub": {
+       "figure": {
+         "caption": "",
+         "label": "fig:example_mpl"
+       }
      }
    }
 
@@ -494,10 +621,10 @@ latex/pdf, you get the static image or b) if you export to html/reveal
 slides, you get the html.
 
 -  use either filepath or url
--  other_files are files required by the html file (e.g. javascript
+-  other_files are files required by the html file (e.g. javascript
    libraries). These files will be copied to the the same folder as the
    html
--  width/height refers to the fraction of the viewspace used (e.g. 0.5
+-  width/height refers to the fraction of the viewspace used (e.g. 0.5
    width -> 50vw and 0.5 height -> 50vh)
 
 An example of how this works is in the
